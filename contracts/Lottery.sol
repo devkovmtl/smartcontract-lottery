@@ -11,6 +11,15 @@ contract Lottery {
     uint256 public usdEntryFee;
     // Store our price feed
     AggregatorV3Interface internal ethUsdPriceFeed;
+    // our enum to make track state of lottery, start, end...
+    enum LOTTERY_STATE {
+        OPEN,
+        CLOSED,
+        CALCULATING_WINNER
+    }
+    // track state
+    LOTTERY_STATE public lottery_state;
+
 
     // to pass the address to Aggregator to find
     // eth/usd
@@ -20,13 +29,16 @@ contract Lottery {
         // https://docs.chain.link/docs/get-the-latest-price/
         usdEntryFee = 50 * (10 ** 18);
         ethUsdPriceFeed = AggregatorV3Interface(_priceFeedAddress);
+        // when we start the lottery will be closed
+        lottery_state = LOTTERY_STATE.CLOSED;
     }
  
     // we need user to pay so make the function 
     // payable
     function enter() public payable {
+        require(lottery_state == LOTTERY_STATE.OPEN);
         // Check a minimum of $50
-        // require();
+        require(msg.value >= getEntranceFee(), "Not enough eth");
         // each time somebody pay keep track
         players.push(payable(msg.sender));
     }
