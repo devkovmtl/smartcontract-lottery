@@ -99,7 +99,7 @@ def deploy_mocks():
 
 
 # To fund a contract with LINK 0.1Link
-def fun_with_link(
+def fund_with_link(
     contract_address, account=None, link_token=None, amount=100000000000000000
 ):
     account = account if account else get_account()

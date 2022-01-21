@@ -1,5 +1,5 @@
 from brownie import Lottery, config, network
-from scripts.helpful_scripts import get_account, get_contract, fun_with_link
+from scripts.helpful_scripts import get_account, get_contract, fund_with_link
 import time
 
 
@@ -10,7 +10,7 @@ def deploy_lottery():
     # if we are not on chain we need to deploy our mocks
     # we pass contract_name from our brownie config file
     # from the name we get the type contract
-    Lottery.deploy(
+    lottery = Lottery.deploy(
         # price_feed address
         get_contract("eth_usd_price_feed").address,
         # vrfCoordinator address
@@ -24,6 +24,7 @@ def deploy_lottery():
         publish_source=config["networks"][network.show_active()].get("verify", False),
     )
     print("Deployed Lottery!")
+    return lottery
 
 
 def start_lottery():
@@ -51,7 +52,7 @@ def end_lottery():
     # we need LINK Token to be able to call the get requestRandomness
     # fund the contract
     # end the lottery
-    tx = fun_with_link(lottery.address)
+    tx = fund_with_link(lottery.address)
     tx.wait(1)
     ending_transaction = lottery.endLottery({"from": account})
     ending_transaction.wait(1)

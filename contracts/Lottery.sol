@@ -35,6 +35,13 @@ contract Lottery is VRFConsumerBase, Ownable {
     // way to uniquely identify chainlink vrf node
     bytes32 keyhash;
 
+    // event piece of data executed in blockchain 
+    // store in blockchain but not accessible
+    // printline of blockchain
+    // SMART CONTRACT CANT access evemts
+    event RequestedRandomness(bytes32 requestId);
+
+
 
     // to pass the address to Aggregator to find
     // eth/usd
@@ -75,8 +82,8 @@ contract Lottery is VRFConsumerBase, Ownable {
         // 50/2000 (solidity dont work with big number)
         // 50 * 1000 /2000
         // we receive 8 decimal * 10**10 we have 18 decimal
-        uint256 adjustedPrice = uint256(price) * 10 ** 10; // 18 decimal
-        uint256 costToEnter = (usdEntryFee * 10 ** 18) / adjustedPrice;
+        uint256 adjustedPrice = uint256(price); //  * (10**10); // 18 decimal
+        uint256 costToEnter = (usdEntryFee * (10**18)) / adjustedPrice;
         return costToEnter;
     }
 
@@ -103,6 +110,9 @@ contract Lottery is VRFConsumerBase, Ownable {
         // request the data in second callback the chainlink node
         // will return data to another function call fullfillrandomness
         bytes32 requestId = requestRandomness(keyhash, fee);
+
+        // We want to emit event 
+        emit RequestedRandomness(requestId);
     }
 
     // 1 - Stop the lottery then request random number
