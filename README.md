@@ -2,6 +2,12 @@
 2. An admin will choose when the lottery is over
 3. The lottery will select a random winner
 
+How do we want to test this ?
+
+1. `mainnet-fork`
+2. `development with mock`
+3. `testnet`
+
 source code: https://github.com/PatrickAlphaC/smartcontract-lottery
 
 Tutorial Video: https://www.youtube.com/watch?v=M576WGiDBdQ
