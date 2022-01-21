@@ -3,8 +3,12 @@
 pragma solidity ^0.8.0;
 
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+// https://docs.openzeppelin.com/contracts/4.x/access-control
+// https://github.com/OpenZeppelin/openzeppelin-contracts
+import "@openzeppelin/contracts/access/Ownable.sol"; //onlyOwner modifier
 
-contract Lottery {
+// Ownable comes from openzeppelin
+contract Lottery is Ownable {
     // keep track of all the players who have payed
     address payable[] public players;
     // minimum of entry fee
@@ -59,8 +63,12 @@ contract Lottery {
         return costToEnter;
     }
 
-    function startLottery() public {}
+    // need to be called only by our admin
+    function startLottery() public onlyOwner {
+        require(lottery_state == LOTTERY_STATE.CLOSED, "Can\'t start new lottery yet");
+        lottery_state = LOTTERY_STATE.OPEN;
+    }
 
-    function endLottery() public {}
+    function endLottery() public onlyOwner  {}
 
 }
