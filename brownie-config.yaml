@@ -8,3 +8,6 @@ compiler:
   solc:
     remappings:
       - '@chainlink=smartcontractkit/chainlink-brownie-contracts@0.3.1'
+
+# Where to get our environment variable
+dotenv: .env

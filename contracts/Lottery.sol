@@ -34,8 +34,17 @@ contract Lottery {
     // we return just a number view 
     // need a price feed to transform 50USD to ETH
     // https://docs.chain.link/docs/get-the-latest-price/
+    // https://docs.chain.link/docs/ethereum-addresses/
     function getEntranceFee() public view returns (uint256) {
-        
+        // dont need the rest of variable 
+        (,int price,,,) = ethUsdPriceFeed.latestRoundData();
+        // $50, $2000 /ETH
+        // 50/2000 (solidity dont work with big number)
+        // 50 * 1000 /2000
+        // we receive 8 decimal * 10**10 we have 18 decimal
+        uint256 adjustedPrice = uint256(price) * 10 ** 10; // 18 decimal
+        uint256 costToEnter = (usdEntryFee * 10 ** 18) / adjustedPrice;
+        return costToEnter;
     }
 
     function startLottery() public {}
