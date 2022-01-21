@@ -1,0 +1,10 @@
+# Our github dependencies
+# https://github.com/smartcontractkit/chainlink-brownie-contracts
+dependencies:
+  - smartcontractkit/chainlink-brownie-contracts@0.3.1
+
+# tell our compiler
+compiler:
+  solc:
+    remappings:
+      - '@chainlink=smartcontractkit/chainlink-brownie-contracts@0.3.1'
