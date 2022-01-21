@@ -14,7 +14,10 @@ def deploy_lottery():
         get_contract("eth_usd_price_feed").address,
         # vrfCoordinator address
         get_contract("vrf_coordinator").address,
+        # link token another smart contract
+        get_contract("link_token").address,
         {"from": account},
+        # fee and keyhash just number
     )
 
 

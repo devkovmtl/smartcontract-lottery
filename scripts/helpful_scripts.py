@@ -1,6 +1,7 @@
 from brownie import (
     MockV3Aggregator,
     VRFCoordinatorMock,
+    LinkToken,
     network,
     accounts,
     config,
@@ -47,6 +48,7 @@ def get_account(index=None, id=None):
 contract_to_mock = {
     "eth_usd_price_feed": MockV3Aggregator,
     "vrf_coordinator": VRFCoordinatorMock,
+    "link_token": LinkToken,
 }
 
 # get contract already deploy mock or real contract
