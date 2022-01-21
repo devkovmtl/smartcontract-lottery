@@ -7,9 +7,15 @@ def deploy_lottery():
     #  Our lottery has constructor args:
     # address _priceFeedAddress, address _vrfCoordinator, address _link, uint256 _fee, bytes32 _keyhash
     # if we are not on chain we need to deploy our mocks
-    # we pass contract_name from our brownie config file 
+    # we pass contract_name from our brownie config file
     # from the name we get the type contract
-    lottery = Lottery.deploy(get_contract("eth_usd_price_feed"), {"from":account})
+    lottery = Lottery.deploy(
+        # price_feed address
+        get_contract("eth_usd_price_feed").address,
+        # vrfCoordinator address
+        get_contract("vrf_coordinator").address,
+        {"from": account},
+    )
 
 
 def main():
