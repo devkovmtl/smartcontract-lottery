@@ -1,3 +1,4 @@
+from os import link
 from brownie import (
     MockV3Aggregator,
     VRFCoordinatorMock,
@@ -6,6 +7,7 @@ from brownie import (
     accounts,
     config,
     Contract,
+    interface,
 )
 from web3 import Web3
 
@@ -94,3 +96,20 @@ def deploy_mocks():
     link_token = LinkToken.deploy({"from": account})
     VRFCoordinatorMock.deploy(link_token.address, {"from": account})
     print("Mocks deployed!")
+
+
+# To fund a contract with LINK 0.1Link
+def fun_with_link(
+    contract_address, account=None, link_token=None, amount=100000000000000000
+):
+    account = account if account else get_account()
+    link_token = link_token if link_token else get_contract("link_token")
+
+    # tx = link_token.transfer(contract_address, amount)
+    # we can use interface to interact with contract
+    # contract_address,
+    link_token_contract = interface.LinkTokenInterface(link_token.address)
+    tx = link_token_contract.transfer(contract_address, amount, {"from": account})
+    tx.wait(1)
+    print("Fund Contract")
+    return tx
