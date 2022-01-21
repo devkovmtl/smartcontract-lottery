@@ -1,4 +1,4 @@
-from brownie import Lottery
+from brownie import Lottery, config, network
 from scripts.helpful_scripts import get_account, get_contract
 
 
@@ -16,9 +16,13 @@ def deploy_lottery():
         get_contract("vrf_coordinator").address,
         # link token another smart contract
         get_contract("link_token").address,
-        {"from": account},
         # fee and keyhash just number
+        config["networks"][network.show_active()]["fee"],
+        config["networks"][network.show_active()]["keyhash"],
+        {"from": account},
+        publish_source=config["networks"][network.show_active()].get("verify", False),
     )
+    print("Deployed Lottery!")
 
 
 def main():

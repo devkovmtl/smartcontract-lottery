@@ -90,7 +90,7 @@ def deploy_mocks():
     print(f"The active network is {network.show_active()}")
     print("Deploying mocks...")
     account = get_account()
-    mock_price_feed = MockV3Aggregator.deploy(
-        DECIMALS, INITIAL_VALUE, {"from": account}
-    )
+    MockV3Aggregator.deploy(DECIMALS, INITIAL_VALUE, {"from": account})
+    link_token = LinkToken.deploy({"from": account})
+    VRFCoordinatorMock.deploy(link_token.address, {"from": account})
     print("Mocks deployed!")
